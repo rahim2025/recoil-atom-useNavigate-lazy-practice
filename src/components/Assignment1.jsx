@@ -1,24 +1,39 @@
 import { useMemo, useState } from "react";
+import { countAtom } from "./sotre/atoms/count";
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-export function Assignment1() {
-    const [input, setInput] = useState(0);
-
-    
-    const expensiveValue =  useMemo(()=>{
-        let value = 1;
-        for (let i=1;i<=input;i++){
-            value = value*i;
-        }    
-        return value;
-    },[input]);
+export default function  Assignment1() {
 
     return (
         <div>
-            <input 
-                type="number" 
-                value={input} 
-                onChange={(e) => setInput(Number(e.target.value))} 
-            />
-            <p>Calculated Value: {expensiveValue}</p>
+            <RecoilRoot>
+             <Count />
+             <Buttons/>
+            </RecoilRoot>
         </div>
     )};
+
+function Count(){
+    const count = useRecoilValue(countAtom);
+    return (
+        <div>
+            {count}
+        </div>
+    )
+}
+
+function Buttons(){
+    let setCount = useSetRecoilState(countAtom);
+    return(
+    <div>
+        <button onClick={()=>{
+            setCount(c => c+1)
+        }}>Increase </button>
+        <button onClick={()=>{
+            setCount(c => c-1)
+        }}>Decrease </button>
+
+
+
+</div>
+)}
